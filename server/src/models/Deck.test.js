@@ -66,7 +66,7 @@ describe('The Deck model', () => {
   
   it('Has many cards', async () => {
     // Arrange
-     const deck = await Deck.create({ name: 'Grass', xp: 25 })
+     let deck = await Deck.create({ name: 'Grass', xp: 25 }) // created a deck
      const cards = await Card.bulkCreate([
       {
         name: 'Arcturus Spellweaver',
@@ -99,15 +99,15 @@ describe('The Deck model', () => {
         imgUrl: 'http://localhost:5000/img/alaric-flamecaller.jpg'
       }
     ])
-     
+     // created multiple cards at once
     
     // Act
     await deck.setCards(cards)
      deck = await Deck.findByPk(deck.id)
-    // Asset
-    const foundCards = await deck.getCards()
-    // expect(foundCards.map(card => card.toJson())).toEqual(cards.map(card => card.))
-     expect(foundCards.ever)
-  })
 
+    // Assert
+    const foundCards = await deck.getCards()
+    
+    expect(foundCards.every((card) => card.name && card.mojo && card.stamina && card.imgUrl))
+  })
 })
